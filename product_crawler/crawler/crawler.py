@@ -19,7 +19,7 @@ async def start_crawler() -> None:
     typer.echo("\n\n" "Done! 🙌" "\n\n" f"Found {len(db['product_urls'])} products! 🍔🍷🍌")
 
 
-async def worker(url: str) -> None:
+async def worker(url: Union[str, dict]) -> None:
     if isinstance(url, str):
         db["crawled_urls"].append(url)
 
