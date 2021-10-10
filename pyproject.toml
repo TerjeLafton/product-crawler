@@ -16,6 +16,27 @@ beautifulsoup4 = "^4.10.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+black = "^21.9b0"
+pre-commit = "^2.15.0"
+isort = "^5.9.3"
+mypy = "^0.910"
+flake8 = "^3.9.2"
+
+[tool.black]
+line-length = 120
+target-version = ['py37']
+include = '\.pyi?$'
+exclude = '''
+(
+    (\.eggs|\.git|\.hg|\.mypy_cache|\.tox|\.venv|\venv|\.github|\docs|\tests|\__pycache__)
+)
+'''
+
+[tool.isort]
+profile = 'black'
+src_paths = ['product_crawler']
+combine_as_imports = true
+line_length = 120
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
