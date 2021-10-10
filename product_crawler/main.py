@@ -19,7 +19,7 @@ def callback() -> None:
 
 
 @app.command()
-def find_products(delete_db: bool = typer.Option(..., prompt="Delete current database?")) -> None:
+def find_products(delete_db: bool = typer.Option(..., prompt='Delete current database?')) -> None:
     """
     Crawls through all categories on Oda.com to find all products and stores the product URLs in a database.
     Progress can be stopped halfway through and continue later.
