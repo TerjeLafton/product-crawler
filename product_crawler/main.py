@@ -1,10 +1,12 @@
 import asyncio
+from typing import Optional
 
 import typer
 
 from product_crawler.crawler.crawler import start_crawler
 from product_crawler.scraper.scraper import start_scraper
 from product_crawler.storage.storage import db, delete_json_database, load_json_database
+from product_crawler.viewer.viewer import show_products_in_html, show_products_in_terminal
 
 app = typer.Typer()
 
@@ -19,7 +21,9 @@ def callback() -> None:
 
 
 @app.command()
-def find_products(delete_db: bool = typer.Option(..., prompt='Delete current database?')) -> None:
+def find_products(
+    delete_db: bool = typer.Option(..., prompt='Delete current database?', help='Delete current database')
+) -> None:
     """
     Crawls through all categories on Oda.com to find all products and stores the product URLs in a database.
     Progress can be stopped halfway through and continue later.
@@ -43,3 +47,20 @@ def scrape_products() -> None:
     load_json_database(database=db)
 
     asyncio.run(start_scraper())
+
+
+@app.command()
+def view_products(html: Optional[bool] = typer.Option(False, help='Show products in HTML')) -> None:
+    """
+    Shows the scraped products in different formats.
+
+    Use --html option to open the products in HTML.
+    """
+    load_json_database(database=db)
+
+    if html:
+        show_products_in_html()
+        typer.launch('products.html')
+
+    else:
+        show_products_in_terminal()
