@@ -1,9 +1,9 @@
 import asyncio
-import time
+from typing import Union
 
-from bs4 import BeautifulSoup
 import httpx
 import typer
+from bs4 import BeautifulSoup  # type: ignore
 
 from product_crawler.config import base_url
 from product_crawler.helpers.fetch_website_body import fetch_website_body
@@ -27,22 +27,23 @@ async def start_scraper() -> None:
     typer.echo("\n\n" "Done! 🙌" "\n\n" f"Scraped {len(db['products'])} products! 🍔🍷🍌")
 
 
-async def worker(url: str) -> None:
-    async with httpx.AsyncClient() as client:
-        response = await fetch_website_body(url=base_url + url, client=client)
-        try:
-            await parse_product_body(response.text)
-            db["product_urls"].remove(url)
-        except AttributeError:
-            if url not in db["product_urls"]:
-                db["product_urls"].append(url)
+async def worker(url: Union[str, dict]) -> None:
+    if isinstance(url, str):
+        async with httpx.AsyncClient() as client:
+            response = await fetch_website_body(url=base_url + url, client=client)
+            if isinstance(response, httpx.Response):
+                await parse_product_body(response.text)
+                db["product_urls"].remove(url)
+            else:
+                if url not in db["product_urls"]:
+                    db["product_urls"].append(url)
 
 
 async def parse_product_body(body: str) -> None:
     parsed_body = BeautifulSoup(body, "html.parser")
     meta_tags = parsed_body.find_all("meta")
 
-    product = {}
+    product: dict = {}
 
     for meta_tag in meta_tags:
         meta_content = meta_tag.get("content")

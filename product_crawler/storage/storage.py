@@ -1,9 +1,9 @@
 import json
 import os
-
 from pathlib import Path
+from typing import Union
 
-db = {
+db: dict[str, Union[list[Union[str, dict]]]] = {
     "urls_to_crawl": ["/"],
     "crawled_urls": [],
     "category_urls": [],

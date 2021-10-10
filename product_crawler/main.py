@@ -4,7 +4,7 @@ import typer
 
 from product_crawler.crawler.crawler import start_crawler
 from product_crawler.scraper.scraper import start_scraper
-from product_crawler.storage.storage import delete_json_database, load_json_database, db
+from product_crawler.storage.storage import db, delete_json_database, load_json_database
 
 app = typer.Typer()
 
@@ -19,9 +19,7 @@ def callback() -> None:
 
 
 @app.command()
-def find_products(
-    delete_db: bool = typer.Option(..., prompt="Delete current database?")
-) -> None:
+def find_products(delete_db: bool = typer.Option(..., prompt="Delete current database?")) -> None:
     """
     Crawls through all categories on Oda.com to find all products and stores the product URLs in a database.
     Progress can be stopped halfway through and continue later.
