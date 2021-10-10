@@ -28,7 +28,7 @@ async def start_scraper() -> None:
         # Wait for all tasks to finish.
         await asyncio.gather(*tasks)
 
-        typer.echo(f"Scraped {len(db['products'])} so far, {len(db['product_urls'])} left!")
+        typer.echo(f"Scraped ✔️ {len(db['products'])} so far, {len(db['product_urls'])} left! 😓")
 
     typer.echo('\n\n' 'Done! 🙌' '\n\n' f"Scraped {len(db['products'])} products! 🍔🍷🍌")
 
