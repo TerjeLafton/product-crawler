@@ -41,7 +41,7 @@ def find_products(
 @app.command()
 def scrape_products() -> None:
     """
-    Scrapes every product url gathered for metadata and stores it in a database. saves
+    Scrapes every product url gathered for metadata and stores it in a database.
     Progress can be stopped halfway through and continue later.
     """
     load_json_database(database=db)
